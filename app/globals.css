@@ -1,26 +1,89 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  /* =========================================
+     1. PRIMITIVES (Palette brute)
+     ========================================= */
+  
+  /* Primary (Bleu) */
+  --color-primary-100: #E1EAFF;
+  --color-primary-200: #A2C3FF;
+  --color-primary-300: #4C9DFF;
+  --color-primary-400: #0078D4;
+  --color-primary-500: #005598;
+  --color-primary-600: #003461;
+  --color-primary-700: #00162E;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Secondary (Vert) */
+  --color-secondary-100: #C4FFD1;
+  --color-secondary-200: #24E771;
+  --color-secondary-300: #1BBB5A;
+  --color-secondary-400: #129144;
+  --color-secondary-500: #0A692F;
+  --color-secondary-600: #04431C;
+  --color-secondary-700: #01210A;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  /* Tertiary (Orange/Marron) */
+  --color-tertiary-100: #FEE2D8;
+  --color-tertiary-200: #FCAD85;
+  --color-tertiary-300: #E67E22;
+  --color-tertiary-400: #B05F17;
+  --color-tertiary-500: #7D420D;
+  --color-tertiary-600: #4E2705;
+  --color-tertiary-700: #230E01;
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* Quaternary (Rouge) */
+  --color-quaternary-100: #FBEEEE;
+  --color-quaternary-200: #F3BBBB;
+  --color-quaternary-300: #EC8484;
+  --color-quaternary-400: #E53E3E;
+  --color-quaternary-500: #A72B2B;
+  --color-quaternary-600: #6E1919;
+  --color-quaternary-700: #390808;
+
+  /* Quinary (Gris/Blanc) */
+  --color-quinary-100: #FFFFFF;
+  --color-quinary-200: #D6D6D6;
+  --color-quinary-300: #AFAFAF;
+  --color-quinary-400: #898989;
+  --color-quinary-500: #656565;
+  --color-quinary-600: #434343;
+  --color-quinary-700: #242424;
+
+
+  /* =========================================
+     2. SEMANTICS (Usage fonctionnel)
+     ========================================= */
+     
+  /* Backgrounds */
+  --color-page: var(--color-quinary-100);
+  --color-surface-dark: var(--color-secondary-700);
+  --color-surface-light: var(--color-secondary-100);
+  --color-surface-medium: var(--color-secondary-400);
+
+  /* Actions */
+  --color-action-primary: var(--color-primary-400);
+  --color-action-primary-hover: var(--color-primary-600);
+  
+  --color-action-secondary: var(--color-quaternary-400);
+  --color-action-secondary-hover: var(--color-quaternary-600);
+
+  /* Textes */
+  --color-text-primary: var(--color-quinary-700);
+  --color-text-secondary: var(--color-quinary-100);
+  --color-text-tertiary: var(--color-quinary-500);
+
+  /* Bordures */
+  --color-border-default: var(--color-primary-400);
+  --color-border-hover: var(--color-primary-600);
+  --color-border-surface: var(--color-secondary-700);
+  --color-border-green: var(--color-secondary-400);
+
+
+  /* =========================================
+     3. TYPOGRAPHIES
+     ========================================= */
+  --font-raleway: var(--font-raleway), sans-serif;
+  --font-lato: var(--font-lato), sans-serif;
+  --font-poppins: var(--font-poppins), sans-serif;
 }
