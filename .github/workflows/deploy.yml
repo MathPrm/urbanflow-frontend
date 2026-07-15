@@ -19,8 +19,12 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
+          context: .
+          file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/urbanflow-${{ github.event.repository.name }}:latest
+          build-args: |
+            NEXT_PUBLIC_API_URL=https://urban-flow-mobility.fr
 
       - name: Deploy to OVH Kubernetes
         env:
@@ -28,5 +32,4 @@ jobs:
         run: |
           mkdir -p ~/.kube
           echo "$KUBECONFIG_DATA" > ~/.kube/config
-          # Redémarre le déploiement correspondant dans ton namespace 'urbanflow'
           kubectl rollout restart deployment/urbanflow-${{ github.event.repository.name }} -n urbanflow

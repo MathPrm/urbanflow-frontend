@@ -1,20 +1,19 @@
 FROM node:20-alpine AS deps
-
 WORKDIR /app
-
 COPY package*.json ./
 RUN npm ci
 
 FROM deps AS builder
-
 WORKDIR /app
 
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
 COPY . .
-COPY .env .env
+
 RUN npm run build
 
 FROM node:20-alpine AS runner
-
 WORKDIR /app
 
 RUN addgroup --system --gid 1001 nodejs && \
