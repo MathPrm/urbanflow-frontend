@@ -3,8 +3,7 @@ import Image from "next/image";
 export default function BottomNav() {
   return (
     <nav className="fixed bottom-0 left-0 w-full bg-page border-t-2 border-border-surface px-6 py-4 flex justify-around items-center z-50">
-      
-      {/* Bouton Accueil */}
+
       <button className="flex flex-col items-center transition-transform hover:scale-110">
         <Image
           src="/icons/icon-navbar-accueil.svg"
@@ -15,7 +14,6 @@ export default function BottomNav() {
         />
       </button>
 
-      {/* Bouton Recherche */}
       <button className="flex flex-col items-center transition-transform hover:scale-110">
         <Image
           src="/icons/icon-navbar-recherche.svg"
@@ -26,7 +24,6 @@ export default function BottomNav() {
         />
       </button>
 
-      {/* Bouton Profil */}
       <button className="flex flex-col items-center transition-transform hover:scale-110">
         <Image
           src="/icons/icon-navbar-profil.svg"

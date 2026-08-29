@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Raleway, Lato, Poppins } from "next/font/google";
 import "./globals.css";
-import BottomNav from "@/components/BottomNav"; // Import de la barre de navigation
+import BottomNav from "@/components/layout/BottomNav";
 
-// Configuration des polices Google
 const raleway = Raleway({
   subsets: ["latin"],
   variable: "--font-raleway",
@@ -37,11 +36,9 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={`${raleway.variable} ${lato.variable} ${poppins.variable} font-poppins antialiased bg-page text-text-primary`}>
-        
-        {/* Le contenu dynamique de chaque page */}
+
         {children}
-        
-        {/* La barre de navigation globale, persistante sur toutes les vues */}
+
         <BottomNav />
         
       </body>

@@ -3,7 +3,7 @@ import { Journey } from "./JourneyCard";
 
 export function useFetchItineraries(departureCoords: string, arrivalCoords: string) {
   const [itineraries, setItineraries] = useState<Journey[]>([]);
-  // On initialise intelligemment : true si on a les coords, false sinon
+
   const [loading, setLoading] = useState<boolean>(!!(departureCoords && arrivalCoords));
   const [error, setError] = useState<string | null>(null);
 
@@ -11,7 +11,7 @@ export function useFetchItineraries(departureCoords: string, arrivalCoords: stri
     const abortController = new AbortController();
 
     const fetchItineraries = async () => {
-      // Si les coordonnées sont vides, on coupe tout proprement à l'intérieur de la fonction
+
       if (!departureCoords || !arrivalCoords) {
         setLoading(false);
         setItineraries([]);

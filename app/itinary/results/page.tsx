@@ -2,21 +2,19 @@
 
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
-import JourneySummaryHeader from "@/components/JourneySummaryHeader";
-import StatusMessage from "@/components/StatusMessage";
-import JourneyList from "@/components/JourneyList";
-import { useFetchItineraries } from "@/components/useFetchItineraries";
+import JourneySummaryHeader from "@/components/itinerary/JourneySummaryHeader";
+import StatusMessage from "@/components/ui/StatusMessage";
+import JourneyList from "@/components/itinerary/JourneyList";
+import { useFetchItineraries } from "@/components/itinerary/useFetchItineraries";
 
 function ResultsContent() {
   const searchParams = useSearchParams();
 
-  // Extraction des paramètres
   const departureCoords = searchParams.get("from") || "";
   const arrivalCoords = searchParams.get("to") || "";
   const departureLabel = searchParams.get("fromLabel") || departureCoords;
   const arrivalLabel = searchParams.get("toLabel") || arrivalCoords;
 
-  // Appel de notre nouveau hook magique
   const { itineraries, loading, error } = useFetchItineraries(departureCoords, arrivalCoords);
 
   return (
@@ -29,8 +27,7 @@ function ResultsContent() {
 
       <main className="flex-1 px-4 -mt-6 relative z-20 pb-20">
         <div className="max-w-md mx-auto w-full flex flex-col gap-4">
-          
-          {/* Rendu conditionnel ultra lisible */}
+
           {loading ? (
             <StatusMessage message="Recherche des meilleurs itinéraires..." />
           ) : error ? (

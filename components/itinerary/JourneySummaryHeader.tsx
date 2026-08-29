@@ -13,7 +13,6 @@ export default function JourneySummaryHeader({ departureLabel, arrivalLabel }: J
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Fonction pour déclencher la recherche avec les nouvelles coordonnées/labels
   const updateRoute = (newFromCoords: string, newFromLabel: string, newToCoords: string, newToLabel: string) => {
     const params = new URLSearchParams(searchParams.toString());
     
@@ -25,7 +24,6 @@ export default function JourneySummaryHeader({ departureLabel, arrivalLabel }: J
     router.push(`/itinary/results?${params.toString()}`);
   };
 
-  // Gestion du changement de départ (signature adaptée : coordinates, label)
   const handleSelectDeparture = (coordinates: string, label: string) => {
     const currentToCoords = searchParams.get("to") || "";
     const currentToLabel = searchParams.get("toLabel") || arrivalLabel;
@@ -33,7 +31,6 @@ export default function JourneySummaryHeader({ departureLabel, arrivalLabel }: J
     updateRoute(coordinates, label, currentToCoords, currentToLabel);
   };
 
-  // Gestion du changement d'arrivée (signature adaptée : coordinates, label)
   const handleSelectArrival = (coordinates: string, label: string) => {
     const currentFromCoords = searchParams.get("from") || "";
     const currentFromLabel = searchParams.get("fromLabel") || departureLabel;
@@ -41,7 +38,6 @@ export default function JourneySummaryHeader({ departureLabel, arrivalLabel }: J
     updateRoute(currentFromCoords, currentFromLabel, coordinates, label);
   };
 
-  // Fonction d'inversion (Swap)
   const handleSwap = () => {
     const from = searchParams.get("from") || "";
     const to = searchParams.get("to") || "";
@@ -64,8 +60,7 @@ export default function JourneySummaryHeader({ departureLabel, arrivalLabel }: J
         </div>
 
         <div className="bg-page rounded-2xl p-4 flex items-center gap-3 shadow-md">
-          
-          {/* Colonne des champs avec autocomplétion */}
+
           <div className="flex flex-col gap-3 flex-1">
             <AddressAutocomplete 
               key={`departure-${departureLabel}`}
@@ -80,8 +75,7 @@ export default function JourneySummaryHeader({ departureLabel, arrivalLabel }: J
               onSelect={handleSelectArrival}
             />
           </div>
-          
-          {/* Bouton d'inversion (Swap) */}
+
           <button 
             onClick={handleSwap}
             className="p-2 text-secondary-500 hover:text-secondary-600 transition-colors shrink-0"

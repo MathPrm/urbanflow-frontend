@@ -77,9 +77,8 @@ export default function AddressAutocomplete({ placeholder, initialValue = "", on
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Le useEffect gérant la recherche avec AbortController
   useEffect(() => {
-    // Plus besoin de setSuggestions([]) ici, le onChange s'en charge !
+
     if (query.length < 3) {
       return;
     }
@@ -157,7 +156,6 @@ export default function AddressAutocomplete({ placeholder, initialValue = "", on
           setQuery(nextValue);
           setShowDropdown(true);
 
-          // C'est ici que le nettoyage est fait proprement au moment de la frappe
           if (nextValue.length < 3) {
             setSuggestions([]);
           }

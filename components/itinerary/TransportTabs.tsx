@@ -1,6 +1,6 @@
 "use client";
 
-import type { TabType } from "@/components/useJourneyFilterSort";
+import type { TabType } from "@/components/itinerary/useJourneyFilterSort";
 
 interface TransportTabsProps {
   activeTab: TabType;
@@ -10,7 +10,7 @@ interface TransportTabsProps {
 export default function TransportTabs({ activeTab, onTabChange }: TransportTabsProps) {
   return (
     <div className="flex bg-surface-light px-1 pt-1 rounded-xl shadow-inner mb-0 items-end h-12">
-      {/* Onglet : Tous */}
+
       <button
         onClick={() => onTabChange("all")}
         aria-label="Tous les trajets"
@@ -57,7 +57,6 @@ export default function TransportTabs({ activeTab, onTabChange }: TransportTabsP
         />
       </button>
 
-      {/* Onglet : Marche */}
       <button
         onClick={() => onTabChange("walking")}
         aria-label="Marche à pied"

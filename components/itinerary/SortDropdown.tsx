@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { SortType } from "./useJourneyFilterSort";
-import Icon from "./Icon";
+import Icon from "../ui/Icon";
 
-// La configuration devient infiniment plus lisible
 const sortConfig = {
   co2: {
     label: "Moins de CO2",
