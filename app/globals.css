@@ -79,6 +79,16 @@
   --color-border-surface: var(--color-secondary-700);
   --color-border-green: var(--color-secondary-400);
 
+  /* Badges CO2 */
+  --color-badge-eco-bg: var(--color-secondary-100);
+  --color-badge-eco-text: var(--color-secondary-600);
+
+  --color-badge-moderate-bg: var(--color-tertiary-100);
+  --color-badge-moderate-text: var(--color-tertiary-500);
+
+  --color-badge-alert-bg: var(--color-quaternary-200);
+  --color-badge-alert-text: var(--color-quaternary-500);
+
 
   /* =========================================
      3. TYPOGRAPHIES

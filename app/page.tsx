@@ -1,6 +1,6 @@
-import Header from "@/components/Header";
-import Hero from "@/components/Hero";
-import SearchCard from "@/components/SearchCard";
+import Header from "@/components/layout/Header";
+import Hero from "@/components/layout/Hero";
+import SearchCard from "@/components/itinerary/SearchCard";
 
 export default function Home() {
   return (
@@ -9,8 +9,7 @@ export default function Home() {
       <Hero />
       <div className="px-4 mt-6 flex flex-col gap-6">
         <SearchCard />
-        
-        {/* Le futur composant "Mes trajets récents" viendra ici */}
+
       </div>
     </main>
   );
