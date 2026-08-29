@@ -1,37 +1,33 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import AddressAutocomplete from "./AddressAutocomplete";
 
 export default function SearchCard() {
+  const router = useRouter();
 
-  const [depart, setDepart] = useState("");
-  const [arrivee, setArrivee] = useState("");
+  const [departureCoords, setDepartureCoords] = useState("");
+  const [arrivalCoords, setArrivalCoords] = useState("");
 
+  const [departureLabel, setDepartureLabel] = useState("");
+  const [arrivalLabel, setArrivalLabel] = useState("");
+  
   const [loading, setLoading] = useState(false);
 
-  const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault(); // Empêche le rechargement de la page
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!departureCoords || !arrivalCoords) {
+      alert("Veuillez sélectionner un départ et une arrivée depuis les suggestions.");
+      return;
+    }
+
     setLoading(true);
 
-    try {
-
-      const response = await fetch(`http://localhost:8000/api/itineraires/search?from=${depart}&to=${arrivee}`);
-      
-      if (!response.ok) {
-        throw new Error(`Erreur HTTP: ${response.status}`);
-      }
-
-      const data = await response.json();
-      
-      console.log("Résultat de l'API reçu par le Front :", data);
-      alert("Recherche réussie ! Ouvre la console F12 pour voir les données.");
-
-    } catch (error) {
-      console.error("Erreur lors de la recherche :", error);
-      alert("Une erreur est survenue lors de la recherche.");
-    } finally {
-      setLoading(false);
-    }
+    router.push(
+      `/itinary/results?from=${encodeURIComponent(departureCoords)}&to=${encodeURIComponent(arrivalCoords)}&fromLabel=${encodeURIComponent(departureLabel)}&toLabel=${encodeURIComponent(arrivalLabel)}`
+    );
   };
 
   return (
@@ -42,20 +38,20 @@ export default function SearchCard() {
 
       <form className="flex flex-col gap-3" onSubmit={handleSearch}>
         
-        <input
-          type="text"
-          value={depart}
-          onChange={(e) => setDepart(e.target.value)}
-          placeholder="Départ | ex: 2.3386,48.8576 (Louvre)"
-          className="w-full border-2 border-border-default rounded-lg px-4 py-3 font-poppins text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-border-hover transition-colors"
+        <AddressAutocomplete
+          placeholder="Départ | ex: Châtelet"
+          onSelect={(coords, label) => {
+            setDepartureCoords(coords);
+            setDepartureLabel(label);
+          }}
         />
 
-        <input
-          type="text"
-          value={arrivee}
-          onChange={(e) => setArrivee(e.target.value)}
-          placeholder="Arrivée | ex: 2.3522,48.8566 (Châtelet)"
-          className="w-full border-2 border-border-default rounded-lg px-4 py-3 font-poppins text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-border-hover transition-colors"
+        <AddressAutocomplete
+          placeholder="Arrivée | ex: Gare de Lyon"
+          onSelect={(coords, label) => {
+            setArrivalCoords(coords);
+            setArrivalLabel(label);
+          }}
         />
 
         <button
@@ -63,8 +59,7 @@ export default function SearchCard() {
           disabled={loading}
           className="w-full bg-action-primary hover:bg-action-primary-hover text-text-secondary font-poppins font-medium rounded-lg px-4 py-3 mt-1 transition-colors disabled:opacity-50"
         >
-
-          {loading ? "Recherche en cours..." : "Rechercher"}
+          {loading ? "Chargement..." : "Rechercher"}
         </button>
         
       </form>
