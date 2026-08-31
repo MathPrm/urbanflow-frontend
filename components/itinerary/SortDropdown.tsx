@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { SortType } from "./useJourneyFilterSort";
+import { SortType } from "../../hooks/useJourneyFilterSort";
 import Icon from "../ui/Icon";
 
 const sortConfig = {

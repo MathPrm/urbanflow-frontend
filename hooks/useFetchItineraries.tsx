@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Journey } from "./JourneyCard";
+import { Journey } from "../components/itinerary/JourneyCard";
 
 export function useFetchItineraries(departureCoords: string, arrivalCoords: string) {
   const [itineraries, setItineraries] = useState<Journey[]>([]);
@@ -46,7 +46,7 @@ export function useFetchItineraries(departureCoords: string, arrivalCoords: stri
       } catch (err: unknown) {
         if (err instanceof Error) {
           if (err.name === "AbortError") {
-            return; // Annulation silencieuse
+            return;
           }
         }
         
