@@ -1,6 +1,6 @@
 "use client";
 
-import type { TabType } from "@/components/itinerary/useJourneyFilterSort";
+import type { TabType } from "@/hooks/useJourneyFilterSort";
 
 interface TransportTabsProps {
   activeTab: TabType;

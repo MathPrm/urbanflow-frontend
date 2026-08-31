@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Journey } from "./JourneyCard";
+import { Journey } from "../components/itinerary/JourneyCard";
 
 export type TabType = "all" | "transit" | "walking";
 export type SortType = "co2" | "time" | "price";

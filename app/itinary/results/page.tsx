@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import JourneySummaryHeader from "@/components/itinerary/JourneySummaryHeader";
 import StatusMessage from "@/components/ui/StatusMessage";
 import JourneyList from "@/components/itinerary/JourneyList";
-import { useFetchItineraries } from "@/components/itinerary/useFetchItineraries";
+import { useFetchItineraries } from "@/hooks/useFetchItineraries";
 
 function ResultsContent() {
   const searchParams = useSearchParams();
