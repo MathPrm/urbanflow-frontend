@@ -31,12 +31,10 @@ export default function JourneyList({ itineraries }: JourneyListProps) {
       ) : (
         finalJourneys.map((journey, index) => (
 
-          // On remplace la <div role="button"> par un vrai <button type="button">
           <button 
             key={`${activeTab}-${sortBy}-${index}`}
             type="button"
             onClick={() => {
-              console.log("🚀 Trajet cliqué !", journey); // Pour vérifier dans la console en prod
               setSelectedJourney(journey);
             }}
             className="w-full text-left cursor-pointer transition-transform hover:scale-[1.01] focus:outline-none focus:ring-2 focus:ring-secondary-500 rounded-2xl"
