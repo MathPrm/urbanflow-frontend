@@ -64,9 +64,10 @@ export default function ItineraryPreview({ isOpen, onClose, journey }: Itinerary
 
   if (!mounted || !isOpen || !journey) return null;
 
-  const durationInMinutes = Math.round(journey.duration / 60);
+  // On sécurise les valeurs par défaut pour éviter un crash au moment du clic
+  const durationInMinutes = Math.round((journey?.duration || 0) / 60);
   
-  const timelineSections = journey.sections.filter(
+  const timelineSections = (journey?.sections || []).filter(
     (section) => section.type === "public_transport" || (section.type === "street_network" && section.duration > 60)
   );
 
