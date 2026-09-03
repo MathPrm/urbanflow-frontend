@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
-import { useGeolocation } from "@/hooks/useGeolocation";
+import { useRouter } from "next/navigation";
 import { Journey, Section } from "./JourneyCard";
 
 interface NavitiaSection extends Omit<Section, 'display_informations'> {
@@ -34,7 +34,7 @@ const formatTime = (navitiaDate?: string) => {
 
 export default function ItineraryPreview({ isOpen, onClose, journey }: ItineraryPreviewProps) {
   const modalRef = useRef<HTMLDivElement>(null);
-  const { coordinates, error, isLoading, requestLocation } = useGeolocation();
+  const router = useRouter(); // On ajoute le router pour la navigation
   
   const mounted = useSyncExternalStore(
     () => () => {},
@@ -59,6 +59,15 @@ export default function ItineraryPreview({ isOpen, onClose, journey }: Itinerary
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
       onClose();
+    }
+  };
+
+  // Nouvelle fonction pour gérer le démarrage de l'itinéraire
+  const handleStartNavigation = () => {
+    if (journey) {
+      sessionStorage.setItem("activeJourney", JSON.stringify(journey));
+      onClose();
+      router.push("/itinary/live");
     }
   };
 
@@ -181,39 +190,23 @@ export default function ItineraryPreview({ isOpen, onClose, journey }: Itinerary
           </div>
 
           <div className="mt-4 pt-4 border-t border-border-default flex flex-col gap-3">
+            {/* Le nouveau bouton de démarrage épuré */}
             <button 
-              onClick={requestLocation}
-              disabled={isLoading}
-              className={`w-full font-semibold py-3.5 px-4 rounded-xl transition-colors shadow-md flex justify-center items-center gap-2 ${
-                isLoading 
-                  ? 'bg-quinary-200 cursor-not-allowed text-text-tertiary' 
-                  : 'bg-secondary-500 hover:bg-secondary-600 text-white'
-              }`}
+              onClick={handleStartNavigation}
+              className="w-full font-semibold py-3.5 px-4 rounded-xl transition-transform hover:scale-[1.02] shadow-md flex justify-center items-center gap-2 bg-secondary-500 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-500"
+              aria-label="Démarrer le guidage en direct"
             >
-              {isLoading ? (
-                <span>Localisation en cours...</span>
-              ) : (
-                <span>{"Démarrer l'itinéraire"}</span>
-              )}
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+              </svg>
+              <span>{"Démarrer l'itinéraire"}</span>
             </button>
-            
-            {error && (
-              <p className="text-red-500 text-xs text-center font-medium">
-                {error}
-              </p>
-            )}
-
-            {coordinates && (
-              <p className="text-secondary-600 text-sm text-center font-medium bg-page py-2 rounded-lg border border-secondary-200 shadow-sm">
-                ✅ Position trouvée : {coordinates.lat.toFixed(4)}, {coordinates.lon.toFixed(4)}
-              </p>
-            )}
 
             <button 
               onClick={onClose}
               className="w-full bg-page hover:bg-quinary-200 text-text-primary font-medium py-3 px-4 rounded-xl transition-colors border border-border-default md:hidden"
             >
-              Annuler
+              Fermer
             </button>
           </div>
         </div>
