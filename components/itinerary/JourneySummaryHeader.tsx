@@ -62,12 +62,15 @@ export default function JourneySummaryHeader({ departureLabel, arrivalLabel }: J
         <div className="bg-page rounded-2xl p-4 flex items-center gap-3 shadow-md">
 
           <div className="flex flex-col gap-3 flex-1">
+
             <AddressAutocomplete 
               key={`departure-${departureLabel}`}
               placeholder="Départ"
               initialValue={departureLabel}
               onSelect={handleSelectDeparture}
+              enableCurrentLocation={true} 
             />
+            
             <AddressAutocomplete 
               key={`arrival-${arrivalLabel}`}
               placeholder="Arrivée"
