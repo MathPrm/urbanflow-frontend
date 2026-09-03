@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
+import { MdMyLocation, MdDirectionsTransit, MdPlace } from "react-icons/md";
 
 interface Coordinate {
   lon: number;
@@ -220,6 +221,7 @@ export default function AddressAutocomplete({
           }
         }}
         placeholder={placeholder}
+        spellCheck={false}
         className="w-full border-2 border-border-default rounded-lg px-4 py-3 font-poppins text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-secondary-500 transition-colors"
       />
 
@@ -227,35 +229,55 @@ export default function AddressAutocomplete({
         <ul 
           ref={dropdownRef}
           style={dropdownStyles}
+          role="listbox"
           className="mt-1 bg-white border border-gray-200 rounded-lg shadow-2xl max-h-60 overflow-y-auto"
         >
           {enableCurrentLocation && (
             <li
+              role="option"
+              aria-selected="false"
               onClick={handleCurrentLocationSelect}
-              className="px-4 py-3 hover:bg-page cursor-pointer text-sm text-action-primary border-b border-gray-100 font-poppins flex flex-col gap-0.5 bg-emerald-50/40"
+              className="px-4 py-3 hover:bg-page cursor-pointer text-sm text-action-primary border-b border-gray-100 font-poppins flex items-center gap-3 bg-emerald-50/40"
             >
-              <div className="flex items-center gap-2 font-semibold">
-                <span>📍</span>
-                <span>{locating ? "Recherche de votre position..." : "Utiliser ma position actuelle"}</span>
+              <MdMyLocation className="w-5 h-5 shrink-0" aria-hidden="true" />
+              <div className="flex flex-col">
+                <span className="font-semibold">
+                  {locating ? "Recherche de votre position..." : "Utiliser ma position actuelle"}
+                </span>
+                <span className="text-[11px] text-text-tertiary">
+                  Détecte automatiquement votre rue via GPS
+                </span>
               </div>
-              <span className="text-[11px] text-text-tertiary pl-5">
-                Détecte automatiquement votre rue via GPS
-              </span>
             </li>
           )}
 
-          {suggestions.map((place, index) => (
-            <li
-              key={index}
-              onClick={() => handleSelect(place)}
-              className="px-4 py-3 hover:bg-page cursor-pointer text-sm text-gray-800 border-b border-gray-100 last:border-none font-poppins flex flex-col gap-1"
-            >
-              <span className="font-semibold text-text-primary">{place.name}</span>
-              <span className="text-[11px] text-text-tertiary uppercase tracking-wider font-medium">
-                {place.embedded_type === 'stop_area' ? '🚏 Station / Arrêt' : '📍 Adresse / Lieu'}
-              </span>
-            </li>
-          ))}
+          {suggestions.map((place, index) => {
+            const isStation = place.embedded_type === 'stop_area';
+            
+            return (
+              <li
+                key={index}
+                role="option"
+                aria-selected="false"
+                onClick={() => handleSelect(place)}
+                className="px-4 py-3 hover:bg-page cursor-pointer text-sm text-gray-800 border-b border-gray-100 last:border-none font-poppins flex items-center gap-3"
+              >
+                <div className="text-gray-400 shrink-0 flex items-center justify-center">
+                  {isStation ? (
+                    <MdDirectionsTransit className="w-5 h-5" aria-hidden="true" />
+                  ) : (
+                    <MdPlace className="w-5 h-5" aria-hidden="true" />
+                  )}
+                </div>
+                <div className="flex flex-col gap-0.5">
+                  <span className="font-semibold text-text-primary">{place.name}</span>
+                  <span className="text-[11px] text-text-tertiary uppercase tracking-wider font-medium">
+                    {isStation ? 'Station / Arrêt' : 'Adresse / Lieu'}
+                  </span>
+                </div>
+              </li>
+            );
+          })}
         </ul>,
         document.body
       )}
