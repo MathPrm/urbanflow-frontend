@@ -21,13 +21,20 @@ interface AddressAutocompleteProps {
   placeholder: string;
   initialValue?: string;
   onSelect: (coordinates: string, label: string) => void;
+  enableCurrentLocation?: boolean;
 }
 
-export default function AddressAutocomplete({ placeholder, initialValue = "", onSelect }: AddressAutocompleteProps) {
+export default function AddressAutocomplete({ 
+  placeholder, 
+  initialValue = "", 
+  onSelect,
+  enableCurrentLocation = false 
+}: AddressAutocompleteProps) {
   const [query, setQuery] = useState(initialValue);
-  const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
+  const [suggestions, setSuggestions]  = useState<PlaceSuggestion[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [dropdownStyles, setDropdownStyles] = useState<React.CSSProperties>({});
+  const [locating, setLocating] = useState(false);
   
   const inputContainerRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLUListElement>(null);
@@ -78,7 +85,6 @@ export default function AddressAutocomplete({ placeholder, initialValue = "", on
   }, []);
 
   useEffect(() => {
-
     if (query.length < 3) {
       return;
     }
@@ -142,15 +148,68 @@ export default function AddressAutocomplete({ placeholder, initialValue = "", on
     const coords = `${coordsObj.lon},${coordsObj.lat}`;
 
     setQuery(label);
+    setSuggestions([]);
     setShowDropdown(false);
     onSelect(coords, label);
   };
+
+  const handleCurrentLocationSelect = () => {
+    if (!navigator.geolocation) {
+      alert("La géolocalisation n'est pas supportée par votre navigateur.");
+      return;
+    }
+
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        const coords = `${lon},${lat}`;
+        
+        let preciseAddress = "";
+
+        try {
+          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`);
+          const data = await res.json();
+          if (data && data.address) {
+            const address = data.address;
+            const street = address.road || address.pedestrian || address.suburb || "";
+            const city = address.city || address.town || address.village || "";
+            if (street && city) {
+              preciseAddress = `${street}, ${city}`;
+            } else if (data.display_name) {
+              preciseAddress = data.display_name.split(',')[0];
+            }
+          }
+        } catch (e) {
+          console.warn("Impossible de récupérer l'adresse textuelle précise.", e);
+        }
+
+        const fullDisplayLabel = preciseAddress ? `Ma position actuelle (${preciseAddress})` : "Ma position actuelle";
+
+        setQuery(fullDisplayLabel);
+        setSuggestions([]);
+        setShowDropdown(false);
+        setLocating(false);
+        onSelect(coords, fullDisplayLabel);
+      },
+      (error) => {
+        console.error(error);
+        alert("Impossible de récupérer votre position. Vérifiez vos autorisations.");
+        setLocating(false);
+      },
+      { enableHighAccuracy: true }
+    );
+  };
+
+  const shouldShowDropdown = mounted && showDropdown && (suggestions.length > 0 || enableCurrentLocation);
 
   return (
     <div className="relative w-full" ref={inputContainerRef}>
       <input
         type="text"
         value={query}
+        onFocus={() => setShowDropdown(true)}
         onChange={(e) => {
           const nextValue = e.target.value;
           setQuery(nextValue);
@@ -164,12 +223,27 @@ export default function AddressAutocomplete({ placeholder, initialValue = "", on
         className="w-full border-2 border-border-default rounded-lg px-4 py-3 font-poppins text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-secondary-500 transition-colors"
       />
 
-      {mounted && showDropdown && suggestions.length > 0 && createPortal(
+      {shouldShowDropdown && createPortal(
         <ul 
           ref={dropdownRef}
           style={dropdownStyles}
           className="mt-1 bg-white border border-gray-200 rounded-lg shadow-2xl max-h-60 overflow-y-auto"
         >
+          {enableCurrentLocation && (
+            <li
+              onClick={handleCurrentLocationSelect}
+              className="px-4 py-3 hover:bg-page cursor-pointer text-sm text-action-primary border-b border-gray-100 font-poppins flex flex-col gap-0.5 bg-emerald-50/40"
+            >
+              <div className="flex items-center gap-2 font-semibold">
+                <span>📍</span>
+                <span>{locating ? "Recherche de votre position..." : "Utiliser ma position actuelle"}</span>
+              </div>
+              <span className="text-[11px] text-text-tertiary pl-5">
+                Détecte automatiquement votre rue via GPS
+              </span>
+            </li>
+          )}
+
           {suggestions.map((place, index) => (
             <li
               key={index}

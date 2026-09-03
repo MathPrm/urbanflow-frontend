@@ -30,12 +30,18 @@ export default function JourneyList({ itineraries }: JourneyListProps) {
         </div>
       ) : (
         finalJourneys.map((journey, index) => (
-
-          <button 
+          <div 
             key={`${activeTab}-${sortBy}-${index}`}
-            type="button"
+            role="button"
+            tabIndex={0}
             onClick={() => {
               setSelectedJourney(journey);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setSelectedJourney(journey);
+              }
             }}
             className="w-full text-left cursor-pointer transition-transform hover:scale-[1.01] focus:outline-none focus:ring-2 focus:ring-secondary-500 rounded-2xl"
             aria-label="Voir les détails de l'itinéraire"
@@ -44,7 +50,7 @@ export default function JourneyList({ itineraries }: JourneyListProps) {
               journey={journey} 
               isEcoRecommended={index === 0} 
             />
-          </button>
+          </div>
         ))
       )}
 
