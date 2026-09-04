@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useGeolocation } from "@/hooks/useGeolocation";
 import LiveMapWrapper from "@/components/map/LiveMapWrapper";
 import { Journey } from "@/components/itinerary/JourneyCard";
+import LiveNavigationBottomSheet from "@/components/map/LiveNavigationBottomSheet";
 
 export default function LiveNavigationPage() {
   const router = useRouter();
@@ -36,11 +37,9 @@ export default function LiveNavigationPage() {
     }
   };
 
-  const durationInMinutes = Math.round((journey.duration || 0) / 60);
-
   return (
     <div className="relative w-full h-[100dvh] overflow-hidden bg-page flex flex-col font-lato">
-      
+
       <button 
         onClick={handleExitNavigation}
         className="absolute top-6 left-4 z-20 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg text-text-primary hover:bg-quinary-200 transition-colors focus:outline-none focus:ring-2 focus:ring-secondary-500"
@@ -72,38 +71,11 @@ export default function LiveNavigationPage() {
         )}
       </div>
 
-      <div className="absolute bottom-0 left-0 w-full z-20">
-        <div className="bg-white rounded-t-3xl shadow-[0_-8px_30px_rgba(0,0,0,0.12)] p-6 pb-8 transform transition-transform duration-300">
-          
-          <div className="w-12 h-1.5 bg-quinary-200 rounded-full mx-auto mb-5"></div>
+      <LiveNavigationBottomSheet 
+        journey={journey} 
+        onExit={handleExitNavigation} 
+      />
 
-          <div className="flex justify-between items-end mb-6">
-            <div>
-              <h1 className="text-4xl font-bold text-secondary-600 font-poppins">
-                {durationInMinutes} <span className="text-xl text-text-tertiary">min</span>
-              </h1>
-              <p className="text-secondary-600 text-sm font-bold mt-2 flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-secondary-500 animate-pulse shadow-[0_0_8px_rgba(59,130,246,0.6)]"></span>
-                Suivi en temps réel actif
-              </p>
-            </div>
-            
-            <button 
-              onClick={handleExitNavigation}
-              className="bg-[#FFE5E5] text-[#D92D20] hover:bg-[#FFD1D1] px-5 py-3 rounded-2xl font-bold text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-red-400 shadow-sm"
-            >
-              Quitter
-            </button>
-          </div>
-
-          <div className="bg-page rounded-xl p-4 border border-quinary-200">
-            <p className="text-sm text-text-primary font-bold">Prochaine étape :</p>
-            <p className="text-sm text-text-tertiary mt-1">
-              Suivez le tracé sur la carte pour rejoindre votre destination.
-            </p>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
