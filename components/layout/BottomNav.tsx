@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export default function BottomNav() {
   const pathname = usePathname();
@@ -35,6 +36,7 @@ export default function BottomNav() {
       </button>
 
       <button className="flex flex-col items-center transition-transform hover:scale-110">
+        <Link href="/profile" className="flex flex-col items-center transition-transform hover:scale-110">
         <Image
           src="/icons/icon-navbar-profil.svg"
           alt="Profil"
@@ -42,6 +44,7 @@ export default function BottomNav() {
           height={32}
           className="w-8 h-auto"
         />
+      </Link>
       </button>
 
     </nav>
