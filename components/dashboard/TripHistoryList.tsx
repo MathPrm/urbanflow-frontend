@@ -9,13 +9,12 @@ interface TripHistoryListProps {
 }
 
 export default function TripHistoryList({ trips }: TripHistoryListProps) {
-  // Configuration des icônes locales par mode de transport
   const modeConfig: Record<
     TripHistoryItem["mode"],
     { iconSrc: string; ariaMode: string }
   > = {
     bike: {
-      iconSrc: "/icons/icon-trajet-transports.svg", // Conservé pour TypeScript au cas où l'API renverrait "bike"
+      iconSrc: "/icons/icon-trajet-transports.svg",
       ariaMode: "Mode Vélo",
     },
     tram: {
