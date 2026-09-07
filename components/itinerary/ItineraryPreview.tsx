@@ -34,7 +34,7 @@ const formatTime = (navitiaDate?: string) => {
 
 export default function ItineraryPreview({ isOpen, onClose, journey }: ItineraryPreviewProps) {
   const modalRef = useRef<HTMLDivElement>(null);
-  const router = useRouter(); // On ajoute le router pour la navigation
+  const router = useRouter();
   
   const mounted = useSyncExternalStore(
     () => () => {},
@@ -62,7 +62,6 @@ export default function ItineraryPreview({ isOpen, onClose, journey }: Itinerary
     }
   };
 
-  // Nouvelle fonction pour gérer le démarrage de l'itinéraire
   const handleStartNavigation = () => {
     if (journey) {
       sessionStorage.setItem("activeJourney", JSON.stringify(journey));
