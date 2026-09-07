@@ -37,6 +37,8 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#01210A" />
         {/* eslint-disable-next-line @next/next/no-page-custom-font, @next/next/google-font-display */}
         <link
           rel="stylesheet"
