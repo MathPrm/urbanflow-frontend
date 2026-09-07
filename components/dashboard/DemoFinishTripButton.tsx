@@ -82,7 +82,6 @@ export default function DemoFinishTripButton({
         window.location.reload();
       }
     } catch {
-      // Ignorer l'erreur réseau silencieusement en démo
     } finally {
       setLoading(false);
     }

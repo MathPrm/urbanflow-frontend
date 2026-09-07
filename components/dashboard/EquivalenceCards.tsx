@@ -7,7 +7,6 @@ interface EquivalenceCardsProps {
 }
 
 export default function EquivalenceCards({ co2SavedKg }: EquivalenceCardsProps) {
-  // Calculs dynamiques des équivalences concrètes d'impact (Baseline ADEME / Enerdata)
   const carKmCount = Math.round(co2SavedKg * 5.0);
   const phoneRechargesCount = Math.round(co2SavedKg * 125);
   const ledHoursCount = Math.round(co2SavedKg * 42);

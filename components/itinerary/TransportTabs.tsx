@@ -37,7 +37,6 @@ export default function TransportTabs({ activeTab, onTabChange }: TransportTabsP
         </svg>
       </button>
 
-      {/* Onglet : Transports */}
       <button
         onClick={() => onTabChange("transit")}
         aria-label="Transports en commun"

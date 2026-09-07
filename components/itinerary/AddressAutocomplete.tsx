@@ -182,7 +182,6 @@ export default function AddressAutocomplete({
             }
           }
         } catch {
-          // Utiliser le libellé générique si le reverse geocoding échoue
         }
 
         const fullDisplayLabel = preciseAddress ? `Ma position actuelle (${preciseAddress})` : "Ma position actuelle";

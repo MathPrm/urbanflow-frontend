@@ -165,10 +165,10 @@ function mapBackendToDashboardData(backendData: BackendCO2Data): CO2DashboardDat
   };
 }
 
-export function useCO2Data(initialPeriod: TimePeriod = "month") {
+export function useCO2Data(initialPeriod: TimePeriod = "month", enabled: boolean = true) {
   const [period, setPeriodState] = useState<TimePeriod>(initialPeriod);
   const [data, setData] = useState<CO2DashboardData>(emptyCO2Data);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const setPeriod = (newPeriod: TimePeriod) => {
@@ -178,6 +178,10 @@ export function useCO2Data(initialPeriod: TimePeriod = "month") {
   };
 
   useEffect(() => {
+    if (!enabled) {
+      return;
+    }
+
     let isMounted = true;
     const controller = new AbortController();
 
@@ -236,14 +240,14 @@ export function useCO2Data(initialPeriod: TimePeriod = "month") {
       isMounted = false;
       controller.abort();
     };
-  }, [period]);
+  }, [period, enabled]);
 
   return {
     data,
     period,
     setPeriod,
-    loading: isLoading,
-    isLoading,
+    loading: enabled ? isLoading : false,
+    isLoading: enabled ? isLoading : false,
     error,
   };
 }

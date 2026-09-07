@@ -7,7 +7,6 @@ import Link from "next/link";
 export default function BottomNav() {
   const pathname = usePathname();
 
-  // Masquer la navigation si l'utilisateur est sur l'écran de guidage en direct
   if (pathname === "/itinary/live") {
     return null;
   }

@@ -100,12 +100,10 @@ export default function LiveMap({ lat, lon, journey }: LiveMapProps) {
 
     let destination: [number, number] | null = null;
 
-    // 🎯 1. Priorité absolue : s'accrocher au tout dernier point du tracé visuel pour garantir le contact avec la ligne
     if (allCoords.length > 0) {
       destination = allCoords[allCoords.length - 1];
     }
 
-    // 2. Fallback de sécurité : Utiliser les métadonnées de Navitia si aucun tracé GeoJSON n'a été fourni
     if (!destination) {
       const journeyTo = (journey as unknown as { to?: MapSection['to'] })?.to;
       if (journeyTo?.coord?.lat && journeyTo?.coord?.lon) {

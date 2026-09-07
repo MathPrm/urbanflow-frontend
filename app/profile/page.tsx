@@ -23,7 +23,10 @@ export default function ProfilePage() {
 
   const [isEditing, setIsEditing] = useState(false);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
-  const [isRegistering, setIsRegistering] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return new URLSearchParams(window.location.search).get("register") === "true";
+  });
 
   const handleLogout = () => {
     localStorage.removeItem("token");

@@ -2,8 +2,6 @@
 
 import { useState, useMemo, useRef } from "react";
 import { 
-  MdOutlineWarningAmber, 
-  MdCheckCircleOutline, 
   MdDirectionsTransit, 
   MdPlace 
 } from "react-icons/md";
@@ -15,7 +13,6 @@ interface LiveNavigationBottomSheetProps {
 }
 
 export default function LiveNavigationBottomSheet({ journey, onExit }: LiveNavigationBottomSheetProps) {
-  const [trafficStatus] = useState<0 | 1>(1); 
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
   const dragStartY = useRef<number | null>(null);
