@@ -3,6 +3,7 @@ import { Raleway, Lato, Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import BottomNav from "@/components/layout/BottomNav";
+import Footer from "@/components/layout/Footer";
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -39,7 +40,7 @@ export default function RootLayout({
       <head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#01210A" />
-        {/* eslint-disable-next-line @next/next/no-page-custom-font, @next/next/google-font-display */}
+
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
@@ -47,15 +48,18 @@ export default function RootLayout({
       </head>
       <body className={`${raleway.variable} ${lato.variable} ${poppins.variable} font-poppins antialiased bg-page text-text-primary flex flex-col min-h-screen`}>
         
-        <Header />
+        <div className="md:fixed md:top-0 md:left-0 md:w-full md:bg-white md:border-b-2 md:border-border-surface md:z-50 md:flex md:items-center md:justify-between md:px-8 md:py-2.5">
+          <Header />
+          <BottomNav />
+        </div>
 
-        <main className="flex-1 md:pt-[76px]">
+        <main className="flex-1 md:pt-[76px] flex flex-col">
           {children}
         </main>
 
-        <BottomNav />
+        <Footer />
         
       </body>
     </html>
   );
-}
+} 
