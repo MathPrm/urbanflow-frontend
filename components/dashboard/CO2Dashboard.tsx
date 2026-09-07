@@ -46,7 +46,7 @@ export default function CO2Dashboard() {
   return (
     <main className="min-h-screen bg-page text-text-primary pb-24 flex flex-col animate-fadeIn">
       <header className="bg-surface-dark w-full pt-6 pb-8 px-4 shadow-md flex flex-col items-center sm:items-start text-center sm:text-left">
-        <div className="max-w-lg mx-auto w-full flex flex-col gap-2">
+        <div className="max-w-lg md:max-w-5xl mx-auto w-full flex flex-col gap-2">
           <div className="flex items-center justify-center sm:justify-start gap-2">
             <Image
               src="/icons/icon-plante-ecologie.svg"
@@ -65,9 +65,9 @@ export default function CO2Dashboard() {
         </div>
       </header>
 
-      <div className="max-w-lg mx-auto w-full px-4 flex flex-col gap-6 mt-6">
+      <div className="max-w-lg md:max-w-5xl mx-auto w-full px-4 flex flex-col gap-6 mt-6">
         {!user ? (
-          <div className="bg-white border-2 border-border-surface rounded-2xl p-6 sm:p-8 shadow-sm flex flex-col items-center text-center gap-6 animate-fadeIn">
+          <div className="bg-white border-2 border-border-surface rounded-2xl p-6 sm:p-8 shadow-sm flex flex-col items-center text-center gap-6 animate-fadeIn md:max-w-xl md:mx-auto">
             <div className="w-16 h-16 rounded-2xl bg-surface-dark flex items-center justify-center text-quinary-100 shadow-sm">
               <span className="material-symbols-outlined text-[36px]" aria-hidden="true">
                 lock
@@ -121,7 +121,7 @@ export default function CO2Dashboard() {
           </div>
         ) : (
           <>
-            <nav aria-label="Période temporelle" className="w-full">
+            <nav aria-label="Période temporelle" className="w-full md:max-w-xs">
               <div
                 role="tablist"
                 aria-label="Sélectionner la période des données"
@@ -156,19 +156,21 @@ export default function CO2Dashboard() {
               </div>
             </nav>
 
-            <div id="dashboard-content" className="flex flex-col gap-6">
-              {data && (
-                <HeroImpactIndicator
-                  data={data}
-                  periodLabel={periodLabels[period]}
-                  loading={loading}
-                />
-              )}
+            <div id="dashboard-content" className="flex flex-col md:grid md:grid-cols-2 gap-6">
+              <div className="flex flex-col gap-6 md:col-span-2">
+                {data && (
+                  <HeroImpactIndicator
+                    data={data}
+                    periodLabel={periodLabels[period]}
+                    loading={loading}
+                  />
+                )}
+              </div>
 
               {isEmpty ? (
                 <section
                   aria-label="Aucun trajet enregistré"
-                  className="bg-white border-2 border-border-surface rounded-2xl p-8 shadow-sm flex flex-col items-center text-center gap-4 animate-fadeIn"
+                  className="bg-white border-2 border-border-surface rounded-2xl p-8 shadow-sm flex flex-col items-center text-center gap-4 animate-fadeIn md:col-span-2"
                 >
                   <div className="flex items-center justify-center shrink-0">
                     <Image
@@ -201,103 +203,105 @@ export default function CO2Dashboard() {
                   {data && (
                     <section
                       aria-labelledby="transport-breakdown-heading"
-                      className="bg-white border-2 border-border-surface rounded-2xl p-5 shadow-sm flex flex-col gap-4"
+                      className="bg-white border-2 border-border-surface rounded-2xl p-5 shadow-sm flex flex-col justify-between gap-4 h-full"
                     >
-                      <div className="flex justify-between items-center">
-                        <h2
-                          id="transport-breakdown-heading"
-                          className="font-lato text-lg font-bold text-text-primary flex items-center gap-2"
-                        >
-                          <Image
-                            src="/icons/icon-plante-ecologie.svg"
-                            alt=""
-                            width={20}
-                            height={20}
-                            className="w-5 h-auto"
-                          />
-                          <span>Répartition par transport</span>
-                        </h2>
-                        <span className="text-xs font-semibold text-text-tertiary font-poppins">
-                          {periodLabels[period]}
-                        </span>
-                      </div>
-
-                      <div className="flex flex-col gap-3">
-                        <div className="flex flex-col gap-1">
-                          <div className="flex justify-between text-xs font-poppins font-medium">
-                            <span className="flex items-center gap-2 text-text-primary">
-                              <span className="w-6 h-6 rounded-lg bg-quinary-200/50 flex items-center justify-center shrink-0">
-                                <Image
-                                  src="/icons/icon-trajet-transports.svg"
-                                  alt=""
-                                  width={16}
-                                  height={16}
-                                  className="w-4 h-auto"
-                                />
-                              </span>
-                              Métro / RER
-                            </span>
-                            <span className="font-bold text-text-primary">
-                              {data.categoryBreakdown.metro}%
-                            </span>
-                          </div>
-                          <div className="w-full bg-quinary-200 h-2.5 rounded-full overflow-hidden">
-                            <div
-                              className="bg-secondary-600 h-full rounded-full"
-                              style={{ width: `${data.categoryBreakdown.metro}%` }}
+                      <div>
+                        <div className="flex justify-between items-center mb-4">
+                          <h2
+                            id="transport-breakdown-heading"
+                            className="font-lato text-lg font-bold text-text-primary flex items-center gap-2"
+                          >
+                            <Image
+                              src="/icons/icon-plante-ecologie.svg"
+                              alt=""
+                              width={20}
+                              height={20}
+                              className="w-5 h-auto"
                             />
-                          </div>
+                            <span>Répartition par transport</span>
+                          </h2>
+                          <span className="text-xs font-semibold text-text-tertiary font-poppins">
+                            {periodLabels[period]}
+                          </span>
                         </div>
 
-                        <div className="flex flex-col gap-1">
-                          <div className="flex justify-between text-xs font-poppins font-medium">
-                            <span className="flex items-center gap-2 text-text-primary">
-                              <span className="w-6 h-6 rounded-lg bg-quinary-200/50 flex items-center justify-center shrink-0">
-                                <Image
-                                  src="/icons/icon-trajet-pieton.svg"
-                                  alt=""
-                                  width={16}
-                                  height={16}
-                                  className="w-4 h-auto"
-                                />
+                        <div className="flex flex-col gap-3">
+                          <div className="flex flex-col gap-1">
+                            <div className="flex justify-between text-xs font-poppins font-medium">
+                              <span className="flex items-center gap-2 text-text-primary">
+                                <span className="w-6 h-6 rounded-lg bg-quinary-200/50 flex items-center justify-center shrink-0">
+                                  <Image
+                                    src="/icons/icon-trajet-transports.svg"
+                                    alt=""
+                                    width={16}
+                                    height={16}
+                                    className="w-4 h-auto"
+                                  />
+                                </span>
+                                Métro / RER
                               </span>
-                              Marche à pied
-                            </span>
-                            <span className="font-bold text-text-primary">
-                              {data.categoryBreakdown.walking}%
-                            </span>
+                              <span className="font-bold text-text-primary">
+                                {data.categoryBreakdown.metro}%
+                              </span>
+                            </div>
+                            <div className="w-full bg-quinary-200 h-2.5 rounded-full overflow-hidden">
+                              <div
+                                className="bg-secondary-600 h-full rounded-full"
+                                style={{ width: `${data.categoryBreakdown.metro}%` }}
+                              />
+                            </div>
                           </div>
-                          <div className="w-full bg-quinary-200 h-2.5 rounded-full overflow-hidden">
-                            <div
-                              className="bg-secondary-300 h-full rounded-full"
-                              style={{ width: `${data.categoryBreakdown.walking}%` }}
-                            />
-                          </div>
-                        </div>
 
-                        <div className="flex flex-col gap-1">
-                          <div className="flex justify-between text-xs font-poppins font-medium">
-                            <span className="flex items-center gap-2 text-text-primary">
-                              <span className="w-6 h-6 rounded-lg bg-quinary-200/50 flex items-center justify-center shrink-0">
-                                <Image
-                                  src="/icons/icon-trajet-transports.svg"
-                                  alt=""
-                                  width={16}
-                                  height={16}
-                                  className="w-4 h-auto"
-                                />
+                          <div className="flex flex-col gap-1">
+                            <div className="flex justify-between text-xs font-poppins font-medium">
+                              <span className="flex items-center gap-2 text-text-primary">
+                                <span className="w-6 h-6 rounded-lg bg-quinary-200/50 flex items-center justify-center shrink-0">
+                                  <Image
+                                    src="/icons/icon-trajet-pieton.svg"
+                                    alt=""
+                                    width={16}
+                                    height={16}
+                                    className="w-4 h-auto"
+                                  />
+                                </span>
+                                Marche à pied
                               </span>
-                              Bus
-                            </span>
-                            <span className="font-bold text-text-primary">
-                              {data.categoryBreakdown.bus}%
-                            </span>
+                              <span className="font-bold text-text-primary">
+                                {data.categoryBreakdown.walking}%
+                              </span>
+                            </div>
+                            <div className="w-full bg-quinary-200 h-2.5 rounded-full overflow-hidden">
+                              <div
+                                className="bg-secondary-300 h-full rounded-full"
+                                style={{ width: `${data.categoryBreakdown.walking}%` }}
+                              />
+                            </div>
                           </div>
-                          <div className="w-full bg-quinary-200 h-2.5 rounded-full overflow-hidden">
-                            <div
-                              className="bg-tertiary-300 h-full rounded-full"
-                              style={{ width: `${data.categoryBreakdown.bus}%` }}
-                            />
+
+                          <div className="flex flex-col gap-1">
+                            <div className="flex justify-between text-xs font-poppins font-medium">
+                              <span className="flex items-center gap-2 text-text-primary">
+                                <span className="w-6 h-6 rounded-lg bg-quinary-200/50 flex items-center justify-center shrink-0">
+                                  <Image
+                                    src="/icons/icon-trajet-transports.svg"
+                                    alt=""
+                                    width={16}
+                                    height={16}
+                                    className="w-4 h-auto"
+                                  />
+                                </span>
+                                Bus
+                              </span>
+                              <span className="font-bold text-text-primary">
+                                {data.categoryBreakdown.bus}%
+                              </span>
+                            </div>
+                            <div className="w-full bg-quinary-200 h-2.5 rounded-full overflow-hidden">
+                              <div
+                                className="bg-tertiary-300 h-full rounded-full"
+                                style={{ width: `${data.categoryBreakdown.bus}%` }}
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -365,28 +369,28 @@ export default function CO2Dashboard() {
                       </table>
                     </section>
                   )}
+
+                  <section
+                    aria-label="Simulateur de fin de trajet"
+                    className="bg-secondary-700 text-white rounded-2xl p-5 shadow-lg flex flex-col justify-between gap-3 text-center sm:text-left border border-secondary-600 md:col-span-2"
+                  >
+                    <div className="flex flex-col gap-1">
+                      <span className="text-xs uppercase tracking-wider text-secondary-200 font-bold font-poppins">
+                        Démo Interactive
+                      </span>
+                      <h3 className="font-lato font-bold text-base text-white">
+                        Simuler un nouveau trajet éco-responsable
+                      </h3>
+                      <p className="text-xs text-quinary-200 font-poppins">
+                        Cliquez pour simuler l&apos;arrivée d&apos;un trajet à pied (Hôtel de Ville → Louvre, 1.2 km - 0.25 kg CO₂ économisés) et voir votre impact s&apos;actualiser instantanément.
+                      </p>
+                    </div>
+                    <div className="pt-1 flex justify-center sm:justify-start">
+                      <DemoFinishTripButton className="w-full sm:w-auto bg-secondary-300 hover:bg-secondary-400 text-secondary-700" />
+                    </div>
+                  </section>
                 </>
               )}
-
-              <section
-                aria-label="Simulateur de fin de trajet"
-                className="bg-secondary-700 text-white rounded-2xl p-5 shadow-lg flex flex-col gap-3 text-center sm:text-left border border-secondary-600"
-              >
-                <div className="flex flex-col gap-1">
-                  <span className="text-xs uppercase tracking-wider text-secondary-200 font-bold font-poppins">
-                    Démo Interactive
-                  </span>
-                  <h3 className="font-lato font-bold text-base text-white">
-                    Simuler un nouveau trajet éco-responsable
-                  </h3>
-                  <p className="text-xs text-quinary-200 font-poppins">
-                    Cliquez pour simuler l&apos;arrivée d&apos;un trajet à pied (Hôtel de Ville → Louvre, 1.2 km - 0.25 kg CO₂ économisés) et voir votre impact s&apos;actualiser instantanément.
-                  </p>
-                </div>
-                <div className="pt-1 flex justify-center sm:justify-start">
-                  <DemoFinishTripButton className="w-full sm:w-auto bg-secondary-300 hover:bg-secondary-400 text-secondary-700" />
-                </div>
-              </section>
             </div>
           </>
         )}
