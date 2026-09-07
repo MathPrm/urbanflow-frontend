@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { Journey } from "../components/itinerary/JourneyCard";
 
-export function useFetchItineraries(departureCoords: string, arrivalCoords: string) {
+export function useFetchItineraries(departureCoords: string, arrivalCoords: string, wheelchair: boolean = false) {
   const [itineraries, setItineraries] = useState<Journey[]>([]);
-
   const [loading, setLoading] = useState<boolean>(!!(departureCoords && arrivalCoords));
   const [error, setError] = useState<string | null>(null);
 
@@ -11,7 +10,6 @@ export function useFetchItineraries(departureCoords: string, arrivalCoords: stri
     const abortController = new AbortController();
 
     const fetchItineraries = async () => {
-
       if (!departureCoords || !arrivalCoords) {
         setLoading(false);
         setItineraries([]);
@@ -23,9 +21,11 @@ export function useFetchItineraries(departureCoords: string, arrivalCoords: stri
 
       try {
         const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-        
+
+        const wheelchairParam = wheelchair ? "&wheelchair=true" : "";
+
         const response = await fetch(
-          `${baseUrl}/api/itineraires/search?from=${encodeURIComponent(departureCoords)}&to=${encodeURIComponent(arrivalCoords)}`,
+          `${baseUrl}/api/itineraires/search?from=${encodeURIComponent(departureCoords)}&to=${encodeURIComponent(arrivalCoords)}${wheelchairParam}`,
           { signal: abortController.signal } 
         );
 
@@ -59,7 +59,7 @@ export function useFetchItineraries(departureCoords: string, arrivalCoords: stri
     return () => {
       abortController.abort();
     };
-  }, [departureCoords, arrivalCoords]);
+  }, [departureCoords, arrivalCoords, wheelchair]);
 
   return { itineraries, loading, error };
 }
