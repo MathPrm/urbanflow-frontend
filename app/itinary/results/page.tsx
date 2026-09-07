@@ -37,10 +37,10 @@ function ResultsContent() {
   };
 
   return (
-    <div className="min-h-screen bg-page flex flex-col font-poppins pb-24 md:pb-12">
+    <div className="min-h-screen bg-page flex flex-col font-poppins pb-24 md:pb-0">
       
       <div className="w-full md:grid md:grid-cols-12 md:items-start">
-        <div className="md:col-span-4 md:bg-surface-dark md:rounded-br-3xl md:rounded-tr-none md:rounded-l-none md:p-6 md:shadow-md md:sticky md:top-0 md:min-h-screen flex flex-col">
+        <div className="md:col-span-4 md:bg-surface-dark md:rounded-none md:p-6 md:shadow-md md:sticky md:top-0 md:min-h-screen flex flex-col">
           <JourneySummaryHeader 
             departureLabel={departureLabel} 
             arrivalLabel={arrivalLabel} 
