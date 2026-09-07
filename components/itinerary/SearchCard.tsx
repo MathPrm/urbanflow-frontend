@@ -37,8 +37,6 @@ export default function SearchCard() {
       </h2>
 
       <form className="flex flex-col gap-3" onSubmit={handleSearch}>
-        
-        {/* Champ de départ avec l'option GPS activée dans le menu déroulant */}
         <AddressAutocomplete
           placeholder="Départ | ex: Châtelet"
           enableCurrentLocation={true}
@@ -48,7 +46,6 @@ export default function SearchCard() {
           }}
         />
 
-        {/* Champ d'arrivée classique */}
         <AddressAutocomplete
           placeholder="Arrivée | ex: Gare de Lyon"
           onSelect={(coords, label) => {

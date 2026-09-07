@@ -116,7 +116,6 @@ export default function AddressAutocomplete({
         if (error instanceof Error && error.name === "AbortError") {
           return;
         }
-        console.error("Erreur lors de la recherche de lieux", error);
         setSuggestions([]);
       }
     };
@@ -182,8 +181,8 @@ export default function AddressAutocomplete({
               preciseAddress = data.display_name.split(',')[0];
             }
           }
-        } catch (e) {
-          console.warn("Impossible de récupérer l'adresse textuelle précise.", e);
+        } catch {
+          // Utiliser le libellé générique si le reverse geocoding échoue
         }
 
         const fullDisplayLabel = preciseAddress ? `Ma position actuelle (${preciseAddress})` : "Ma position actuelle";
@@ -194,8 +193,7 @@ export default function AddressAutocomplete({
         setLocating(false);
         onSelect(coords, fullDisplayLabel);
       },
-      (error) => {
-        console.error(error);
+      () => {
         alert("Impossible de récupérer votre position. Vérifiez vos autorisations.");
         setLocating(false);
       },

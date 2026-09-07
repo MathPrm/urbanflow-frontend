@@ -42,7 +42,6 @@ export default function TripHistoryList({ trips }: TripHistoryListProps) {
       className="bg-white border-2 border-border-surface rounded-2xl p-5 shadow-sm flex flex-col gap-4"
     >
       <div className="flex justify-between items-center mb-1">
-        {/* Titre avec l'icône timer alignée sur le même style que la feuille */}
         <h2
           id="recent-trips-heading"
           className="font-lato text-lg font-bold text-text-primary flex items-center gap-2"
@@ -61,10 +60,8 @@ export default function TripHistoryList({ trips }: TripHistoryListProps) {
         </span>
       </div>
 
-      {/* Liste sémantique d'éléments (WCAG) */}
       <ul role="list" className="flex flex-col gap-3">
         {trips.map((trip) => {
-          // Utilisation de "metro" en fallback plutôt que "bike" pour éviter toute incohérence
           const config = modeConfig[trip.mode] || modeConfig.metro;
 
           return (
@@ -72,9 +69,7 @@ export default function TripHistoryList({ trips }: TripHistoryListProps) {
               key={trip.id}
               className="bg-page border border-quinary-200 rounded-xl p-3.5 flex justify-between items-center gap-3 hover:border-border-default transition-all shadow-xs"
             >
-              {/* Informations du trajet */}
               <div className="flex items-center gap-3 min-w-0">
-                {/* Icône de transport avec fond unifié */}
                 <div
                   className="w-10 h-10 rounded-xl bg-quinary-200/50 flex items-center justify-center shrink-0"
                   aria-label={config.ariaMode}
@@ -102,7 +97,6 @@ export default function TripHistoryList({ trips }: TripHistoryListProps) {
                 </div>
               </div>
 
-              {/* CO2 Économisé */}
               <div className="flex flex-col items-end shrink-0">
                 <span className="font-lato text-sm font-black text-secondary-600">
                   -{trip.co2SavedKg} kg
