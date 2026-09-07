@@ -13,7 +13,7 @@ interface LiveNavigationBottomSheetProps {
 }
 
 export default function LiveNavigationBottomSheet({ journey, onExit }: LiveNavigationBottomSheetProps) {
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [isExpanded, setIsExpanded] = useState<boolean>(true);
 
   const dragStartY = useRef<number | null>(null);
 
@@ -110,112 +110,182 @@ export default function LiveNavigationBottomSheet({ journey, onExit }: LiveNavig
   const futureSteps = activeSteps.slice(1);
 
   return (
-    <div 
-      className="absolute bottom-0 left-0 w-full z-20"
-      role="region" 
-      aria-label="Informations de navigation en temps réel"
-    >
-      <div className="bg-white rounded-t-3xl shadow-[0_-8px_30px_rgba(0,0,0,0.12)] px-6 pt-1 pb-6 transform transition-transform duration-300 max-h-[85dvh] overflow-y-auto custom-scrollbar">
-        
-        <div 
-          className="w-full py-4 cursor-grab active:cursor-grabbing group flex flex-col items-center select-none touch-none"
-          onPointerDown={handlePointerDown}
-          onPointerUp={handlePointerUp}
-          role="button"
-          tabIndex={0}
-          aria-expanded={isExpanded}
-          aria-label={isExpanded ? "Glisser vers le bas pour réduire le panneau" : "Glisser vers le haut pour ouvrir le panneau"}
-        >
-          <div className="w-12 h-1.5 bg-gray-300 group-hover:bg-gray-400 transition-colors rounded-full pointer-events-none" aria-hidden="true"></div>
-        </div>
+    <>
+      <div 
+        className="absolute bottom-0 left-0 w-full z-20 md:hidden"
+        role="region" 
+        aria-label="Informations de navigation en temps réel"
+      >
+        <div className="bg-white rounded-t-3xl shadow-[0_-8px_30px_rgba(0,0,0,0.12)] px-6 pt-1 pb-6 transform transition-transform duration-300 max-h-[85dvh] overflow-y-auto custom-scrollbar">
+          
+          <div 
+            className="w-full py-4 cursor-grab active:cursor-grabbing group flex flex-col items-center select-none touch-none"
+            onPointerDown={handlePointerDown}
+            onPointerUp={handlePointerUp}
+            role="button"
+            tabIndex={0}
+            aria-expanded={isExpanded}
+            aria-label={isExpanded ? "Glisser vers le bas pour réduire le panneau" : "Glisser vers le haut pour ouvrir le panneau"}
+          >
+            <div className="w-12 h-1.5 bg-gray-300 group-hover:bg-gray-400 transition-colors rounded-full pointer-events-none" aria-hidden="true"></div>
+          </div>
 
-        <div className="flex justify-between items-start mb-2">
+          <div className="flex justify-between items-start mb-2">
+            <div className="flex flex-col">
+              <span className="text-gray-500 font-medium font-poppins text-sm mb-1" aria-hidden="true">
+                Arrivée prévue à {eta}
+              </span>
+              <div className="flex items-baseline gap-2">
+                <h1 className="text-4xl font-bold text-secondary-600 font-poppins">
+                  {durationInMinutes}
+                </h1>
+                <span className="text-xl font-medium text-secondary-600 font-lato">min</span>
+              </div>
+            </div>
+            
+            <button 
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onExit();
+              }}
+              className="bg-gray-100 text-gray-700 hover:bg-red-50 hover:text-red-600 px-5 py-2.5 rounded-xl font-bold text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-red-400 shadow-sm flex items-center gap-2 mt-2"
+              aria-label="Quitter la navigation"
+            >
+              <span aria-hidden="true">✖</span> Quitter
+            </button>
+          </div>
+
+          {isExpanded && (
+            <div className="mt-4 flex flex-col gap-5 animate-fadeIn">
+              <div className="bg-page border-2 border-secondary-500 p-4 rounded-xl shadow-sm flex flex-col">
+                <h3 className="text-[10px] uppercase tracking-wider font-bold text-gray-500 mb-3">
+                  Prochaine étape
+                </h3>
+                <div className="flex items-center gap-4">
+                  <div 
+                    className={`p-3 rounded-lg shrink-0 flex items-center justify-center ${currentStep.bg || ''} ${currentStep.text || ''}`}
+                    style={currentStep.customColor ? { backgroundColor: currentStep.customColor, color: '#ffffff' } : {}}
+                  >
+                     {currentStep.icon}
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-bold text-text-primary font-poppins text-sm">{currentStep.title}</span>
+                    <span className="text-text-tertiary text-xs mt-0.5">
+                      {currentStep.type === 'walk' ? `Pendant environ ${currentStep.subtitle}` : currentStep.subtitle}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {futureSteps.length > 0 && (
+                <div className="px-2 pb-2">
+                  <h4 className="text-[10px] uppercase tracking-wider font-bold text-gray-400 mb-3">
+                    Ensuite
+                  </h4>
+                  <ol className="flex flex-col gap-4" aria-label="Étapes suivantes du trajet">
+                    {futureSteps.map((step, index) => (
+                      <li key={step.id} className="relative flex items-center gap-3 group">
+                        {index !== futureSteps.length - 1 && (
+                          <div className="absolute left-[11px] top-6 -bottom-4 w-[2px] bg-gray-200 group-hover:bg-gray-300 transition-colors z-0" aria-hidden="true"></div>
+                        )}
+                        <div 
+                          className={`relative z-10 w-6 h-6 rounded-md flex items-center justify-center shrink-0 opacity-70 group-hover:opacity-100 transition-opacity ${step.bg || 'bg-gray-100'} ${step.text || 'text-gray-500'}`}
+                          style={step.customColor ? { backgroundColor: step.customColor, color: '#ffffff' } : {}}
+                        >
+                          {step.icon}
+                        </div>
+                        <div className="flex items-baseline gap-2 opacity-70 group-hover:opacity-100 transition-opacity">
+                          <span className="font-semibold text-gray-600 text-xs">{step.title}</span>
+                          <span className="text-gray-400 text-[10px]">{step.subtitle}</span>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <aside 
+        className="hidden md:flex flex-col absolute top-0 left-0 h-full w-[400px] bg-surface-dark shadow-2xl z-20 p-6 overflow-y-auto custom-scrollbar border-r border-border-surface"
+        role="region" 
+        aria-label="Informations de navigation en temps réel"
+      >
+        <div className="flex justify-between items-start mb-6 pt-4 border-b border-quinary-200/20 pb-6">
           <div className="flex flex-col">
-            <span className="text-gray-500 font-medium font-poppins text-sm mb-1" aria-hidden="true">
+            <span className="text-quinary-200 font-medium font-poppins text-sm mb-1">
               Arrivée prévue à {eta}
             </span>
             <div className="flex items-baseline gap-2">
-              <h1 className="text-4xl font-bold text-secondary-600 font-poppins">
+              <h1 className="text-4xl font-bold text-white font-poppins">
                 {durationInMinutes}
               </h1>
-              <span className="text-xl font-medium text-secondary-600 font-lato">min</span>
+              <span className="text-xl font-medium text-quinary-200 font-lato">min</span>
             </div>
           </div>
           
           <button 
             type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              onExit();
-            }}
-            className="bg-gray-100 text-gray-700 hover:bg-red-50 hover:text-red-600 px-5 py-2.5 rounded-xl font-bold text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-red-400 shadow-sm flex items-center gap-2 mt-2"
+            onClick={onExit}
+            className="bg-white/10 text-white hover:bg-red-500/20 hover:text-red-300 px-4 py-2 rounded-xl font-bold text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-red-400 shadow-sm flex items-center gap-2 border border-white/10"
             aria-label="Quitter la navigation"
           >
             <span aria-hidden="true">✖</span> Quitter
           </button>
         </div>
 
-        {isExpanded && (
-          <div className="mt-4 flex flex-col gap-5 animate-fadeIn">
-
-            <div className="bg-page border-2 border-secondary-500 p-4 rounded-xl shadow-sm flex flex-col">
-              <h3 className="text-[10px] uppercase tracking-wider font-bold text-gray-500 mb-3">
-                Prochaine étape
-              </h3>
-              <div className="flex items-center gap-4">
-                <div 
-                  className={`p-3 rounded-lg shrink-0 flex items-center justify-center ${currentStep.bg || ''} ${currentStep.text || ''}`}
-                  style={currentStep.customColor ? { backgroundColor: currentStep.customColor, color: '#ffffff' } : {}}
-                >
-                   {currentStep.icon}
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-bold text-text-primary font-poppins text-sm">{currentStep.title}</span>
-                  <span className="text-text-tertiary text-xs mt-0.5">
-                    {currentStep.type === 'walk' ? `Pendant environ ${currentStep.subtitle}` : currentStep.subtitle}
-                  </span>
-                </div>
+        <div className="flex flex-col gap-6">
+          <div className="bg-white border-2 border-secondary-500 p-4 rounded-xl shadow-sm flex flex-col">
+            <h3 className="text-[10px] uppercase tracking-wider font-bold text-gray-500 mb-3">
+              Prochaine étape
+            </h3>
+            <div className="flex items-center gap-4">
+              <div 
+                className={`p-3 rounded-lg shrink-0 flex items-center justify-center ${currentStep.bg || ''} ${currentStep.text || ''}`}
+                style={currentStep.customColor ? { backgroundColor: currentStep.customColor, color: '#ffffff' } : {}}
+              >
+                 {currentStep.icon}
+              </div>
+              <div className="flex flex-col">
+                <span className="font-bold text-text-primary font-poppins text-sm">{currentStep.title}</span>
+                <span className="text-text-tertiary text-xs mt-0.5">
+                  {currentStep.type === 'walk' ? `Pendant environ ${currentStep.subtitle}` : currentStep.subtitle}
+                </span>
               </div>
             </div>
-
-            {futureSteps.length > 0 && (
-              <div className="px-2 pb-2">
-                <h4 className="text-[10px] uppercase tracking-wider font-bold text-gray-400 mb-3">
-                  Ensuite
-                </h4>
-                <ol className="flex flex-col gap-4" aria-label="Étapes suivantes du trajet">
-                  {futureSteps.map((step, index) => (
-                    <li key={step.id} className="relative flex items-center gap-3 group">
-                      
-                      {index !== futureSteps.length - 1 && (
-                        <div 
-                          className="absolute left-[11px] top-6 -bottom-4 w-[2px] bg-gray-200 group-hover:bg-gray-300 transition-colors z-0" 
-                          aria-hidden="true"
-                        ></div>
-                      )}
-
-                      <div 
-                        className={`relative z-10 w-6 h-6 rounded-md flex items-center justify-center shrink-0 opacity-70 group-hover:opacity-100 transition-opacity ${step.bg || 'bg-gray-100'} ${step.text || 'text-gray-500'}`}
-                        style={step.customColor ? { backgroundColor: step.customColor, color: '#ffffff' } : {}}
-                      >
-                        {step.icon}
-                      </div>
-                      
-                      <div className="flex items-baseline gap-2 opacity-70 group-hover:opacity-100 transition-opacity">
-                        <span className="font-semibold text-gray-600 text-xs">{step.title}</span>
-                        <span className="text-gray-400 text-[10px]">{step.subtitle}</span>
-                      </div>
-
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            )}
-
           </div>
-        )}
 
-      </div>
-    </div>
+          {futureSteps.length > 0 && (
+            <div className="px-2">
+              <h4 className="text-[10px] uppercase tracking-wider font-bold text-quinary-300 mb-3">
+                Ensuite
+              </h4>
+              <ol className="flex flex-col gap-4" aria-label="Étapes suivantes du trajet">
+                {futureSteps.map((step, index) => (
+                  <li key={step.id} className="relative flex items-center gap-3 group">
+                    {index !== futureSteps.length - 1 && (
+                      <div className="absolute left-[11px] top-6 -bottom-4 w-[2px] bg-white/20 group-hover:bg-white/40 transition-colors z-0" aria-hidden="true"></div>
+                    )}
+                    <div 
+                      className={`relative z-10 w-6 h-6 rounded-md flex items-center justify-center shrink-0 opacity-80 group-hover:opacity-100 transition-opacity ${step.bg || 'bg-white/10'} ${step.text || 'text-white'}`}
+                      style={step.customColor ? { backgroundColor: step.customColor, color: '#ffffff' } : {}}
+                    >
+                      {step.icon}
+                    </div>
+                    <div className="flex items-baseline gap-2 opacity-80 group-hover:opacity-100 transition-opacity">
+                      <span className="font-semibold text-white text-xs">{step.title}</span>
+                      <span className="text-quinary-200 text-[10px]">{step.subtitle}</span>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
+        </div>
+      </aside>
+    </>
   );
 }

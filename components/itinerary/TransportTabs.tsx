@@ -9,15 +9,20 @@ interface TransportTabsProps {
 
 export default function TransportTabs({ activeTab, onTabChange }: TransportTabsProps) {
   return (
-    <div className="flex bg-surface-light px-1 pt-1 rounded-xl shadow-inner mb-0 items-end h-12">
-
+    <div 
+      role="tablist"
+      aria-label="Filtrer par type de transport"
+      className="grid grid-cols-3 bg-quinary-200/50 p-1.5 rounded-2xl border border-quinary-200 shadow-sm items-center w-full"
+    >
       <button
+        role="tab"
+        aria-selected={activeTab === "all"}
         onClick={() => onTabChange("all")}
         aria-label="Tous les trajets"
-        className={`flex-1 flex justify-center items-center h-full transition-all rounded-t-lg rounded-b-none ${
+        className={`py-3 px-3 flex justify-center items-center font-poppins text-xs font-bold rounded-xl transition-all ${
           activeTab === "all"
-            ? "bg-white text-secondary-600 shadow-[0_-2px_4px_rgba(0,0,0,0.02)]"
-            : "text-text-tertiary hover:text-text-primary hover:bg-white/40"
+            ? "bg-white text-secondary-700 shadow-md scale-[1.02]"
+            : "text-text-tertiary hover:text-text-primary"
         }`}
       >
         <svg
@@ -38,12 +43,14 @@ export default function TransportTabs({ activeTab, onTabChange }: TransportTabsP
       </button>
 
       <button
+        role="tab"
+        aria-selected={activeTab === "transit"}
         onClick={() => onTabChange("transit")}
         aria-label="Transports en commun"
-        className={`flex-1 flex justify-center items-center h-full transition-all rounded-t-lg rounded-b-none ${
+        className={`py-3 px-3 flex justify-center items-center font-poppins text-xs font-bold rounded-xl transition-all ${
           activeTab === "transit"
-            ? "bg-white text-secondary-600 shadow-[0_-2px_4px_rgba(0,0,0,0.02)]"
-            : "text-text-tertiary hover:text-text-primary hover:bg-white/40"
+            ? "bg-white text-secondary-700 shadow-md scale-[1.02]"
+            : "text-text-tertiary hover:text-text-primary"
         }`}
       >
         <div
@@ -57,12 +64,14 @@ export default function TransportTabs({ activeTab, onTabChange }: TransportTabsP
       </button>
 
       <button
+        role="tab"
+        aria-selected={activeTab === "walking"}
         onClick={() => onTabChange("walking")}
         aria-label="Marche à pied"
-        className={`flex-1 flex justify-center items-center h-full transition-all rounded-t-lg rounded-b-none ${
+        className={`py-3 px-3 flex justify-center items-center font-poppins text-xs font-bold rounded-xl transition-all ${
           activeTab === "walking"
-            ? "bg-white text-secondary-600 shadow-[0_-2px_4px_rgba(0,0,0,0.02)]"
-            : "text-text-tertiary hover:text-text-primary hover:bg-white/40"
+            ? "bg-white text-secondary-700 shadow-md scale-[1.02]"
+            : "text-text-tertiary hover:text-text-primary"
         }`}
       >
         <div

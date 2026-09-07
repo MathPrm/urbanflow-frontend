@@ -38,11 +38,11 @@ export default function LiveNavigationPage() {
   };
 
   return (
-    <div className="relative w-full h-[100dvh] overflow-hidden bg-page flex flex-col font-lato">
+    <div className="relative w-full h-[100dvh] overflow-hidden bg-page flex flex-col md:flex-row font-lato">
 
       <button 
         onClick={handleExitNavigation}
-        className="absolute top-6 left-4 z-20 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg text-text-primary hover:bg-quinary-200 transition-colors focus:outline-none focus:ring-2 focus:ring-secondary-500"
+        className="absolute top-6 left-4 md:left-[420px] z-30 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg text-text-primary hover:bg-quinary-200 transition-colors focus:outline-none focus:ring-2 focus:ring-secondary-500"
         aria-label="Quitter la navigation"
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -50,7 +50,7 @@ export default function LiveNavigationPage() {
         </svg>
       </button>
 
-      <div className="absolute inset-0 z-0 bg-quinary-100 flex items-center justify-center">
+      <div className="absolute inset-0 md:static md:flex-1 z-0 bg-quinary-100 flex items-center justify-center h-full">
         {isLoading && !coordinates ? (
           <div className="flex flex-col items-center gap-4 text-secondary-600 bg-white/80 p-6 rounded-2xl backdrop-blur-sm shadow-sm">
             <span className="w-10 h-10 rounded-full border-4 border-secondary-200 border-t-secondary-500 animate-spin"></span>
@@ -70,7 +70,6 @@ export default function LiveNavigationPage() {
           </div>
         )}
       </div>
-
       <LiveNavigationBottomSheet 
         journey={journey} 
         onExit={handleExitNavigation} 

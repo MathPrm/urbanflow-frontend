@@ -45,10 +45,13 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
         />
       </head>
-      <body className={`${raleway.variable} ${lato.variable} ${poppins.variable} font-poppins antialiased bg-page text-text-primary`}>
+      <body className={`${raleway.variable} ${lato.variable} ${poppins.variable} font-poppins antialiased bg-page text-text-primary flex flex-col min-h-screen`}>
+        
         <Header />
 
-        {children}
+        <main className="flex-1 md:pt-[76px]">
+          {children}
+        </main>
 
         <BottomNav />
         
