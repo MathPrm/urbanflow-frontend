@@ -160,22 +160,6 @@ export default function LiveNavigationBottomSheet({ journey, onExit }: LiveNavig
 
         {isExpanded && (
           <div className="mt-4 flex flex-col gap-5 animate-fadeIn">
-            <div>
-              {trafficStatus === 0 && (
-                <div className="flex items-center gap-3 bg-emerald-50 border border-emerald-100 text-emerald-800 p-3 rounded-xl" role="status">
-                  <MdCheckCircleOutline className="w-5 h-5 shrink-0" aria-hidden="true" />
-                  <span className="font-medium text-sm font-poppins">Trafic fluide sur votre trajet</span>
-                </div>
-              )}
-              {trafficStatus === 1 && (
-                <div className="flex items-center gap-3 bg-orange-50 border border-orange-200 text-orange-800 p-3 rounded-xl shadow-sm" role="alert">
-                  <MdOutlineWarningAmber className="w-5 h-5 shrink-0" aria-hidden="true" />
-                  <span className="font-medium text-sm font-poppins">
-                    Perturbation signalée sur votre itinéraire
-                  </span>
-                </div>
-              )}
-            </div>
 
             <div className="bg-page border-2 border-secondary-500 p-4 rounded-xl shadow-sm flex flex-col">
               <h3 className="text-[10px] uppercase tracking-wider font-bold text-gray-500 mb-3">
