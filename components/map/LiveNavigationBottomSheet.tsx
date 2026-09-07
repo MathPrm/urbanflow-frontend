@@ -15,11 +15,9 @@ interface LiveNavigationBottomSheetProps {
 }
 
 export default function LiveNavigationBottomSheet({ journey, onExit }: LiveNavigationBottomSheetProps) {
-  // 🛑 Retour au mock statique (0 = Fluide, 1 = Alerte)
   const [trafficStatus] = useState<0 | 1>(1); 
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
-  // 🖱️ Références pour détecter le mouvement de glissement (Drag / Swipe)
   const dragStartY = useRef<number | null>(null);
 
   const handlePointerDown = (e: React.PointerEvent) => {
@@ -30,16 +28,13 @@ export default function LiveNavigationBottomSheet({ journey, onExit }: LiveNavig
     if (dragStartY.current === null) return;
     
     const deltaY = e.clientY - dragStartY.current;
-    const threshold = 30; // Seuil de glissement en pixels
+    const threshold = 30;
 
     if (deltaY < -threshold) {
-      // Glissement vers le haut -> Ouvrir
       setIsExpanded(true);
     } else if (deltaY > threshold) {
-      // Glissement vers le bas -> Réduire
       setIsExpanded(false);
     } else {
-      // Simple clic sans mouvement significatif -> Basculer l'état
       setIsExpanded((prev) => !prev);
     }
 
@@ -125,7 +120,6 @@ export default function LiveNavigationBottomSheet({ journey, onExit }: LiveNavig
     >
       <div className="bg-white rounded-t-3xl shadow-[0_-8px_30px_rgba(0,0,0,0.12)] px-6 pt-1 pb-6 transform transition-transform duration-300 max-h-[85dvh] overflow-y-auto custom-scrollbar">
         
-        {/* 👆 ZONE DE LA POIGNÉE */}
         <div 
           className="w-full py-4 cursor-grab active:cursor-grabbing group flex flex-col items-center select-none touch-none"
           onPointerDown={handlePointerDown}
@@ -138,7 +132,6 @@ export default function LiveNavigationBottomSheet({ journey, onExit }: LiveNavig
           <div className="w-12 h-1.5 bg-gray-300 group-hover:bg-gray-400 transition-colors rounded-full pointer-events-none" aria-hidden="true"></div>
         </div>
 
-        {/* ⏱️ BLOC PRINCIPAL */}
         <div className="flex justify-between items-start mb-2">
           <div className="flex flex-col">
             <span className="text-gray-500 font-medium font-poppins text-sm mb-1" aria-hidden="true">
@@ -165,11 +158,8 @@ export default function LiveNavigationBottomSheet({ journey, onExit }: LiveNavig
           </button>
         </div>
 
-        {/* 📦 CONTENU DÉPLIABLE */}
         {isExpanded && (
           <div className="mt-4 flex flex-col gap-5 animate-fadeIn">
-            
-            {/* 🚦 Statut du Trafic (Mock statique restauré) */}
             <div>
               {trafficStatus === 0 && (
                 <div className="flex items-center gap-3 bg-emerald-50 border border-emerald-100 text-emerald-800 p-3 rounded-xl" role="status">
@@ -187,7 +177,6 @@ export default function LiveNavigationBottomSheet({ journey, onExit }: LiveNavig
               )}
             </div>
 
-            {/* 📍 ÉTAPE ACTUELLE */}
             <div className="bg-page border-2 border-secondary-500 p-4 rounded-xl shadow-sm flex flex-col">
               <h3 className="text-[10px] uppercase tracking-wider font-bold text-gray-500 mb-3">
                 Prochaine étape
@@ -208,7 +197,6 @@ export default function LiveNavigationBottomSheet({ journey, onExit }: LiveNavig
               </div>
             </div>
 
-            {/* 🛤️ ÉTAPES FUTURES */}
             {futureSteps.length > 0 && (
               <div className="px-2 pb-2">
                 <h4 className="text-[10px] uppercase tracking-wider font-bold text-gray-400 mb-3">
