@@ -122,12 +122,7 @@ export default function DemoFinishTripButton({
           <span>Enregistrement du trajet...</span>
         </>
       ) : (
-        <>
-          <span aria-hidden="true" className="text-base">
-            ✨
-          </span>
-          <span>{buttonText}</span>
-        </>
+        <span>{buttonText}</span>
       )}
     </button>
   );

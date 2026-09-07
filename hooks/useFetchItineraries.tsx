@@ -44,13 +44,10 @@ export function useFetchItineraries(departureCoords: string, arrivalCoords: stri
           setItineraries([]);
         }
       } catch (err: unknown) {
-        if (err instanceof Error) {
-          if (err.name === "AbortError") {
-            return;
-          }
+        if (err instanceof Error && err.name === "AbortError") {
+          return;
         }
         
-        console.error("Error fetching itineraries:", err);
         setError("Impossible de récupérer les itinéraires. Veuillez réessayer.");
       } finally {
         setLoading(false);

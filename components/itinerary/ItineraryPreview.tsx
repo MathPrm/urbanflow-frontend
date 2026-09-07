@@ -189,7 +189,6 @@ export default function ItineraryPreview({ isOpen, onClose, journey }: Itinerary
           </div>
 
           <div className="mt-4 pt-4 border-t border-border-default flex flex-col gap-3">
-            {/* Le nouveau bouton de démarrage épuré */}
             <button 
               onClick={handleStartNavigation}
               className="w-full font-semibold py-3.5 px-4 rounded-xl transition-transform hover:scale-[1.02] shadow-md flex justify-center items-center gap-2 bg-secondary-500 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-500"

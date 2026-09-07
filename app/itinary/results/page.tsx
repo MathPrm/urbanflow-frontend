@@ -28,7 +28,9 @@ function ResultsContent() {
       <main className="flex-1 px-4 -mt-6 relative z-20 pb-20">
         <div className="max-w-md mx-auto w-full flex flex-col gap-4">
 
-          {loading ? (
+          {!departureCoords || !arrivalCoords ? (
+            <StatusMessage message="Veuillez renseigner un point de départ et d'arrivée pour chercher un trajet." />
+          ) : loading ? (
             <StatusMessage message="Recherche des meilleurs itinéraires..." />
           ) : error ? (
             <StatusMessage message={error} />

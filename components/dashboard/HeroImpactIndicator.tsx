@@ -24,13 +24,11 @@ export default function HeroImpactIndicator({
       aria-labelledby="hero-impact-heading"
       className="bg-secondary-700 rounded-3xl p-6 shadow-xl text-white flex flex-col gap-6 relative transition-all duration-300 border border-secondary-600"
     >
-      {/* Motif décoratif en arrière-plan */}
       <div
         aria-hidden="true"
         className="absolute -right-8 -bottom-8 w-44 h-44 rounded-full bg-white/5 pointer-events-none blur-2xl"
       />
 
-      {/* En-tête de la carte Hero avec infobulle interactive au clic */}
       <div className="flex justify-between items-start gap-4">
         <div>
           <span className="text-xs font-semibold tracking-wider text-secondary-100 uppercase font-poppins block mb-1">
@@ -44,7 +42,6 @@ export default function HeroImpactIndicator({
               Bilan d&apos;Émissions Évitées
             </h2>
 
-            {/* Bouton d'infobulle interactif au clic */}
             <div className="relative inline-flex items-center">
               <button
                 type="button"
@@ -65,7 +62,6 @@ export default function HeroImpactIndicator({
         </div>
       </div>
 
-      {/* Indicateur chiffré principal (Hero Metric) */}
       <div
         className="flex flex-col items-start my-2"
         aria-live="polite"
@@ -91,14 +87,12 @@ export default function HeroImpactIndicator({
         </p>
       </div>
 
-      {/* Indicateur d'efficacité carbone calculé dynamiquement par le Backend */}
       <div className="bg-white/10 border border-white/15 rounded-2xl p-4 flex items-center justify-between gap-4 backdrop-blur-sm">
         <div className="flex items-center gap-3">
           <div
             aria-hidden="true"
             className="w-11 h-11 rounded-xl bg-secondary-500 flex items-center justify-center shrink-0 text-secondary-900 shadow-sm"
           >
-            {/* Icône officielle Google Material Symbols (directions_car) */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24"
